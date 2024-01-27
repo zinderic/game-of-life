@@ -7,8 +7,8 @@ import (
 )
 
 const (
-	width  = 10
-	height = 10
+	width  = 30
+	height = 30
 )
 
 // Cell represents a single cell in the Game of Life.
@@ -52,7 +52,7 @@ func (g *Grid) Print() {
 			if g.cells[i][j].alive {
 				fmt.Print("■ ")
 			} else {
-				fmt.Print("□ ")
+				fmt.Print("  ")
 			}
 		}
 		fmt.Println()
@@ -105,10 +105,10 @@ func main() {
 	grid := NewGrid(width, height)
 	grid.InitializeRandom()
 
-	for generation := 0; generation < 10; generation++ {
+	for generation := 0; generation < 100000; generation++ {
 		fmt.Printf("Generation %d:\n", generation)
 		grid.Print()
-		time.Sleep(time.Second)
+		time.Sleep(time.Second / 3)
 		grid.Update()
 	}
 }
