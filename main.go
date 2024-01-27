@@ -7,8 +7,9 @@ import (
 )
 
 const (
-	width  = 30
-	height = 30
+	width         = 30
+	height        = 30
+	numAliveCells = 5
 )
 
 // Cell represents a single cell in the Game of Life.
@@ -41,6 +42,23 @@ func (g *Grid) InitializeRandom() {
 	for i := range g.cells {
 		for j := range g.cells[i] {
 			g.cells[i][j].alive = rand.Intn(2) == 1
+		}
+	}
+}
+
+// SetRandomAlive generates 5 alive cells adjacent to each other.
+func (g *Grid) SetRandomAlive() {
+	rand.Seed(time.Now().UnixNano())
+
+	startRow, startCol := rand.Intn(len(g.cells)-2), rand.Intn(len(g.cells[0])-2)
+	if startCol+numAliveCells > len(g.cells[0]) {
+		startCol = len(g.cells[0]) - numAliveCells
+	}
+
+	for i := 0; i < numAliveCells; i++ {
+		row, col := startRow+i, startCol+i
+		if row >= 0 && row < len(g.cells) && col >= 0 && col < len(g.cells[0]) {
+			g.cells[row][col].alive = true
 		}
 	}
 }
@@ -106,9 +124,11 @@ func main() {
 	grid.InitializeRandom()
 
 	for generation := 0; generation < 100000; generation++ {
+		// Set 5 adjacent random cells to be alive
+		grid.SetRandomAlive()
 		fmt.Printf("Generation %d:\n", generation)
 		grid.Print()
-		time.Sleep(time.Second / 3)
+		time.Sleep(time.Second / 30)
 		grid.Update()
 	}
 }
