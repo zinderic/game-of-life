@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-const (
+var (
 	Width         = 30
 	Height        = 30
 	numAliveCells = 5
