@@ -2,14 +2,18 @@ package gol
 
 import (
 	"fmt"
+	"log"
 	"math/rand"
 	"time"
+
+	"golang.org/x/term"
 )
 
 var (
 	XSize         = 30
 	YSize         = 30
 	numAliveCells = 5
+	TermSize      = false
 )
 
 // Cell represents a single cell in the Game of Life.
@@ -120,15 +124,24 @@ func (g *Grid) shouldCellLive(currentState bool, neighbors int) bool {
 }
 
 func Start() {
+	if TermSize {
+		width, height, err := term.GetSize(0)
+		if err != nil {
+			log.Fatal(err)
+		}
+		XSize = width
+		YSize = height
+	}
 	grid := NewGrid(XSize, YSize)
 	grid.InitializeRandom()
-
 	for generation := 0; generation < 100000; generation++ {
 		// Set 5 adjacent random cells to be alive
 		grid.SetRandomAlive()
-		fmt.Printf("Generation %d:\n", generation)
+		if !TermSize {
+			fmt.Printf("Generation %d:\n", generation)
+		}
 		grid.Print()
-		time.Sleep(time.Second / 30)
+		time.Sleep(time.Second / 5)
 		grid.Update()
 	}
 }
