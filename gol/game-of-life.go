@@ -7,8 +7,8 @@ import (
 )
 
 var (
-	Width         = 30
-	Height        = 30
+	XSize         = 30
+	YSize         = 30
 	numAliveCells = 5
 )
 
@@ -23,13 +23,13 @@ type Grid struct {
 }
 
 // NewGrid creates a new empty grid.
-func NewGrid(width, height int) *Grid {
+func NewGrid(XSize, YSize int) *Grid {
 	grid := &Grid{
-		cells: make([][]Cell, height),
+		cells: make([][]Cell, YSize),
 	}
 
 	for i := range grid.cells {
-		grid.cells[i] = make([]Cell, width)
+		grid.cells[i] = make([]Cell, XSize)
 	}
 
 	return grid
@@ -120,7 +120,7 @@ func (g *Grid) shouldCellLive(currentState bool, neighbors int) bool {
 }
 
 func Start() {
-	grid := NewGrid(Width, Height)
+	grid := NewGrid(XSize, YSize)
 	grid.InitializeRandom()
 
 	for generation := 0; generation < 100000; generation++ {

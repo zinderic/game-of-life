@@ -11,6 +11,24 @@ import (
 func main() {
 
 	app := &cli.App{
+		Flags: []cli.Flag{
+			&cli.IntFlag{
+				Name:        "xSize",
+				Aliases:     []string{"x"},
+				Value:       30,
+				Usage:       "set xSize of the grid",
+				DefaultText: "30",
+				Destination: &gol.XSize,
+			},
+			&cli.IntFlag{
+				Name:        "ySize",
+				Aliases:     []string{"y"},
+				Value:       30,
+				Usage:       "set ySize of the grid",
+				DefaultText: "30",
+				Destination: &gol.YSize,
+			},
+		},
 		Name:  "game-of-life",
 		Usage: "start the game of life",
 		Action: func(*cli.Context) error {
