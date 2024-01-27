@@ -1,22 +1,26 @@
 package main
 
 import (
-	"fmt"
-	"time"
+	"log"
+	"os"
 
+	"github.com/urfave/cli/v2"
 	"github.com/zinderic/game-of-life/gol"
 )
 
 func main() {
-	grid := gol.NewGrid(gol.Width, gol.Height)
-	grid.InitializeRandom()
 
-	for generation := 0; generation < 100000; generation++ {
-		// Set 5 adjacent random cells to be alive
-		grid.SetRandomAlive()
-		fmt.Printf("Generation %d:\n", generation)
-		grid.Print()
-		time.Sleep(time.Second / 30)
-		grid.Update()
+	app := &cli.App{
+		Name:  "game-of-life",
+		Usage: "start the game of life",
+		Action: func(*cli.Context) error {
+			gol.Start()
+			return nil
+		},
 	}
+
+	if err := app.Run(os.Args); err != nil {
+		log.Fatal(err)
+	}
+
 }
