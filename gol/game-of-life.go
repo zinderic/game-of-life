@@ -1,4 +1,4 @@
-package main
+package gol
 
 import (
 	"fmt"
@@ -7,8 +7,8 @@ import (
 )
 
 const (
-	width         = 30
-	height        = 30
+	Width         = 30
+	Height        = 30
 	numAliveCells = 5
 )
 
@@ -117,18 +117,4 @@ func (g *Grid) shouldCellLive(currentState bool, neighbors int) bool {
 		return neighbors == 2 || neighbors == 3
 	}
 	return neighbors == 3
-}
-
-func main() {
-	grid := NewGrid(width, height)
-	grid.InitializeRandom()
-
-	for generation := 0; generation < 100000; generation++ {
-		// Set 5 adjacent random cells to be alive
-		grid.SetRandomAlive()
-		fmt.Printf("Generation %d:\n", generation)
-		grid.Print()
-		time.Sleep(time.Second / 30)
-		grid.Update()
-	}
 }
